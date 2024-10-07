@@ -6,6 +6,9 @@ import tsconfig from "./tsconfig.json"
 
 export default defineConfig({
   plugins: [react()],
+  server: {
+    cors: true,
+  },
   resolve: {
     alias: getPathAlias(tsconfig.compilerOptions, import.meta),
   },
