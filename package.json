@@ -1,0 +1,38 @@
+{
+  "name": "sdust-timetable",
+  "version": "0.0.0",
+  "description": "A powerful timetable for SDUST students.",
+  "main": "index.js",
+  "keywords": [
+    "timetable",
+    "SDUST"
+  ],
+  "author": "PFiS1737",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build"
+  },
+  "dependencies": {
+    "axios": "^1.7.7",
+    "date-fns": "^4.1.0",
+    "dexie": "^4.0.8",
+    "dexie-react-hooks": "^1.1.7",
+    "mdui": "^2.1.2",
+    "react": "19.0.0-rc-3edc000d-20240926",
+    "react-dom": "19.0.0-rc-3edc000d-20240926"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.2",
+    "@types/react": "^18.3.10",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.13",
+    "typescript": "^5.6.2",
+    "vite": "^5.4.8"
+  },
+  "packageManager": "pnpm@9.11.0+sha512.0a203ffaed5a3f63242cd064c8fb5892366c103e328079318f78062f24ea8c9d50bc6a47aa3567cabefd824d170e78fa2745ed1f16b132e16436146b7688f19b"
+}
