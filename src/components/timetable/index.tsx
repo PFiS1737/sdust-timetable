@@ -20,11 +20,7 @@ export function Timetable() {
       try {
         const api = await new Api().tryLogin(username, password)
 
-        const info =
-          api &&
-          (await api.getClassesInfoOfWeek(
-            (await api.getSemesterInfo()).getWeekByNumber(12)
-          ))
+        const info = api && (await api.getClassesInfoOfWeek())
 
         setClasses(info)
       } catch (error) {
