@@ -1,7 +1,5 @@
 import { ClassPeriod } from "./ClassPeriod.class"
 import { ClassroomInfo } from "./ClassroomInfo.class"
-import { SHARED_SEMESTER_INFO } from "./SemesterInfo.class"
-import type { WeekInfo } from "./WeekInfo.class"
 
 export interface IClassInfo {
   /** 课程名称 */
@@ -11,7 +9,7 @@ export interface IClassInfo {
   /** 上课教室 */
   room: ClassroomInfo
   /** 上课周次 */
-  weeks: WeekInfo[]
+  weeks: number[]
   /** 上课时间 */
   periodInfo: ClassPeriod
 }
@@ -28,7 +26,7 @@ export class ClassInfo implements IClassInfo {
   name: string
   teacher: string
   room: ClassroomInfo
-  weeks: WeekInfo[]
+  weeks: number[]
   periodInfo: ClassPeriod
 
   static from(info: IClassInfoStorable) {
@@ -46,18 +44,15 @@ export class ClassInfo implements IClassInfo {
     this.teacher = info.jsxm
     this.room = new ClassroomInfo(info.jsmc)
 
-    this.weeks = info.kkzc
-      .split(",")
-      .flatMap((week) => {
-        if (!week.includes("-")) return [Number.parseInt(week)]
+    this.weeks = info.kkzc.split(",").flatMap((week) => {
+      if (!week.includes("-")) return [Number.parseInt(week)]
 
-        const [start, end] = week.split("-")
-        return Array.from(
-          { length: Number.parseInt(end) - Number.parseInt(start) + 1 },
-          (_, i) => i + Number.parseInt(start)
-        )
-      })
-      .map((weekNumber) => SHARED_SEMESTER_INFO.weeks[weekNumber - 1])
+      const [start, end] = week.split("-")
+      return Array.from(
+        { length: Number.parseInt(end) - Number.parseInt(start) + 1 },
+        (_, i) => i + Number.parseInt(start)
+      )
+    })
 
     this.periodInfo = new ClassPeriod(info.kcsj)
   }
@@ -67,7 +62,7 @@ export class ClassInfo implements IClassInfo {
       name: this.name,
       teacher: this.teacher,
       room: this.room.fullname,
-      weeks: this.weeks.map((week) => week.weekNumber),
+      weeks: this.weeks,
       period: this.periodInfo.toRaw(),
     }
   }

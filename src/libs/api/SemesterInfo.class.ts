@@ -2,8 +2,6 @@ import { endOfDay, startOfDay } from "date-fns"
 
 import type { WeekInfo } from "./WeekInfo.class"
 
-export let SHARED_SEMESTER_INFO: SemesterInfo
-
 export class SemesterInfo {
   /** 学年学期号 */
   id: string
@@ -19,9 +17,6 @@ export class SemesterInfo {
     this.startTime = startOfDay(startTime)
     this.endTime = endOfDay(endTime)
     this.weeks = weeks
-
-    if (!SHARED_SEMESTER_INFO) SHARED_SEMESTER_INFO = this
-    else console.warn("重复调用 SemesterInfo 构造函数")
   }
 
   getWeekIncludesDate(date: Date) {
