@@ -2,13 +2,13 @@
 
 ## Status
 
-> 消极开发中...
+> 缓慢开发中...
 
-咱学校的教务系统 API 没开 [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)，导致这个项目根本没法用，虽然可以靠[浏览器插件](https://chromewebstore.google.com/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf)解决，但这也不是个办法，而且手机也没法用浏览器插件。
+~咱学校的教务系统 API 没开 [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)，导致这个项目根本没法用，虽然可以靠[浏览器插件](https://chromewebstore.google.com/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf)解决，但这也不是个办法，而且手机也没法用浏览器插件。~
 
-一个备选方案是直接开发 APP，但问题是，我只会写 Android 软件，但我目前的主力机是 iPhone，虽然可以学，但写 iPhone 软件需要 Mac，而我又没有，所以这个方案也不行。
+尝试使用 Serverless Function 代理请求，发现确实可以，于是决定重启这个项目。
 
-虽然我对这个项目的定位是一个练手的项目，作为我的第一个 React 项目用来熟悉技术栈和踩坑的，但我不想做一个没法用的东西，所以我决定暂时搁置这个项目，等我有时间和精力再来继续。
+虽然学业繁忙，但是我会尽量抽时间开发的。
 
 ## Features
 
