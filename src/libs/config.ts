@@ -1,5 +1,3 @@
-export const ACADEMIC_MANAGEMENT_SYSTEM_URL = "https://jwgl.sdust.edu.cn"
-
 export const WEEKDAYS = new Array(7)
   .fill(null)
   .map((_, i) => `周${"一二三四五六日"[i]}`)

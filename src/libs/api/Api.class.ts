@@ -1,8 +1,6 @@
 import axios from "axios"
 import { addDays, addWeeks, format, subDays, subWeeks } from "date-fns"
 
-import { ACADEMIC_MANAGEMENT_SYSTEM_URL } from "../config"
-
 import { ApiCache } from "./ApiCache.class"
 import { ClassInfo } from "./ClassInfo.class"
 import { ClassesOfWeek } from "./ClassesOfWeek.class"
@@ -47,7 +45,10 @@ export class Api {
   }
 
   constructor(opts?: ApiOptions) {
-    this.url = opts?.url?.replace(/\/$/, "") ?? ACADEMIC_MANAGEMENT_SYSTEM_URL
+    // NOTE: 使用 Serverless 代理的 API, 因为大部分学校的教务系统都没开 CORS
+    //
+    // @see /api/index.js
+    this.url = opts?.url?.replace(/\/$/, "") ?? "/api"
     this.force = opts?.force ?? false
     this.cache = new ApiCache()
   }
@@ -57,11 +58,11 @@ export class Api {
     [key: string]: string
   }) {
     return (
-      await axios.get(`${this.url}/app.do`, {
-        params,
+      await axios.get(this.url, {
         headers: {
           token: this.username && this.token,
         },
+        params,
       })
     ).data
   }
