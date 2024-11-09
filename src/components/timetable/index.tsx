@@ -3,8 +3,8 @@ import { useEffect, useState } from "react"
 
 import "mdui/components/card"
 
-import { Api } from "@/libs/api/Api.class"
 import type { ClassesOfWeek } from "@/libs/api/ClassesOfWeek.class"
+import { api } from "@/libs/api/index"
 import { CLASS_PERIODS, WEEKDAYS } from "@/libs/config"
 import { settings } from "@/libs/settings/index"
 
@@ -16,11 +16,11 @@ export function Timetable() {
   const { username, password } = useLiveQuery(() => settings.getAll()) ?? {}
 
   useEffect(() => {
-    const getClassInfo = async () => {
+    ;(async () => {
       try {
-        const api = await new Api().tryLogin(username, password)
-
-        const info = api && (await api.getClassesInfoOfWeek())
+        const info =
+          (api.isLoggedIn ? api : await api.tryLogin(username, password)) &&
+          (await api.getClassesInfoOfWeek())
 
         setClasses(info)
       } catch (error) {
@@ -29,9 +29,7 @@ export function Timetable() {
       } finally {
         setLoading(false)
       }
-    }
-
-    getClassInfo()
+    })()
   }, [username, password])
 
   return (
@@ -73,7 +71,7 @@ export function Timetable() {
                   <div
                     key={weekdayIndex}
                     // HACK: 对可能用到的类进行导入, 因为 tailwindcss 无法识别动态类名
-                    //       grid-rows-2 grid-rows-4
+                    //       < grid-rows-2 grid-rows-4 >
                     className={`col-span-1 grid grid-rows-${part.length} gap-2`}
                   >
                     {new Array(part.length / 2).fill(0).map((_, index) => {

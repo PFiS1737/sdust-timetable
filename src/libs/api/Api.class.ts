@@ -44,6 +44,10 @@ export class Api {
     return this._token
   }
 
+  get isLoggedIn() {
+    return !!this._token
+  }
+
   constructor(opts?: ApiOptions) {
     // NOTE: 使用 Serverless 代理的 API, 因为大部分学校的教务系统都没开 CORS
     //
@@ -95,6 +99,7 @@ export class Api {
       }
     } catch {
       console.warn("Failed to login.")
+
       return this
     }
   }
