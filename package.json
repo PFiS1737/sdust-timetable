@@ -3,10 +3,7 @@
   "version": "0.0.0",
   "description": "A powerful timetable for SDUST students.",
   "main": "index.js",
-  "keywords": [
-    "timetable",
-    "SDUST"
-  ],
+  "keywords": ["timetable", "SDUST"],
   "author": "PFiS1737",
   "license": "MIT",
   "type": "module",
@@ -15,14 +12,14 @@
     "build": "tsc -b && vite build"
   },
   "dependencies": {
-    "@vercel/functions": "^1.5.0",
     "axios": "^1.7.7",
     "date-fns": "^4.1.0",
     "dexie": "^4.0.8",
     "dexie-react-hooks": "^1.1.7",
     "mdui": "^2.1.2",
     "react": "19.0.0-rc-3edc000d-20240926",
-    "react-dom": "19.0.0-rc-3edc000d-20240926"
+    "react-dom": "19.0.0-rc-3edc000d-20240926",
+    "react-router-dom": "^6.28.0"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.2",

@@ -10,7 +10,6 @@ import { settings } from "@/libs/settings/index"
 
 export function Timetable() {
   const [classes, setClasses] = useState<ClassesOfWeek>()
-  const [loading, setLoading] = useState(true)
   const [error, setError] = useState<Error>()
 
   const { username, password } = useLiveQuery(() => settings.getAll()) ?? {}
@@ -26,18 +25,13 @@ export function Timetable() {
       } catch (error) {
         setError(error as Error)
         console.error(error)
-      } finally {
-        setLoading(false)
       }
     })()
   }, [username, password])
 
   return (
-    <div className="w-full flex-shrink-0">
-      {loading ? (
-        // TODO: add styles
-        <div>Loading...</div>
-      ) : error ? (
+    <>
+      {error ? (
         <div>Error: {error.message}</div>
       ) : (
         <div className="space-y-4 bg-gray-800 p-2">
@@ -95,6 +89,6 @@ export function Timetable() {
           })}
         </div>
       )}
-    </div>
+    </>
   )
 }

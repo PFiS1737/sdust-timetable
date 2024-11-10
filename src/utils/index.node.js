@@ -17,14 +17,12 @@ export function getPathAlias({ baseUrl, paths }, importMeta) {
   return Object.entries(paths).map(([origin, [replacement]]) => {
     return {
       find: new RegExp(
-        `^(${origin
-          .replaceAll("/", "\\/")
-          .replace(/\/\*$/, "/")})(.+)(?<!\\.ts)$`
+        `^(${origin.replaceAll("/", "\\/").replace(/\/\*$/, "/")})(.+)$`
       ),
       replacement: `${nodePath.resolve(
         resolvePath(baseUrl, importMeta),
         replacement.replace(/\/\*$/, "")
-      )}/$2.ts`,
+      )}/$2`,
     }
   })
 }
