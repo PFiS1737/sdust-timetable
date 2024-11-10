@@ -94,6 +94,8 @@ export function Login() {
                   snackbar({
                     message: error.message,
                   })
+
+                  setLoading(false)
                 })
             }}
           >
