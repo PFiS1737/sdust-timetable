@@ -1,5 +1,5 @@
 import { useLiveQuery } from "dexie-react-hooks"
-import { type FormEvent, useRef, useState } from "react"
+import { type FormEvent, useEffect, useRef, useState } from "react"
 import { createPortal } from "react-dom"
 import { useNavigate } from "react-router-dom"
 
@@ -28,10 +28,27 @@ export function Login() {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
 
+  useEffect(() => {
+    dialog.current?.addEventListener("close", () => setIsOpen(false))
+  })
+
   return (
     <>
-      <mdui-list-item end-icon="login" onClick={() => setIsOpen(true)}>
-        Login
+      <mdui-list-item
+        icon="people"
+        end-icon="login"
+        onClick={() => setIsOpen(true)}
+      >
+        {loggedInUser ? (
+          <>
+            Logged in as: {loggedInUser}
+            <span slot="description" className="text-gray-600">
+              Click to change account
+            </span>
+          </>
+        ) : (
+          "Click to login"
+        )}
       </mdui-list-item>
 
       {createPortal(
@@ -42,10 +59,9 @@ export function Login() {
           ref={dialog}
           className="[&::part(panel)]:w-1/2"
         >
-          <span slot="headline">Login</span>
-          {loggedInUser && (
-            <span slot="description">Logged in as: {loggedInUser}</span>
-          )}
+          <span slot="headline">
+            {loggedInUser ? "Change Account" : "Login"}
+          </span>
           <mdui-text-field
             name="username"
             autocomplete="username"
