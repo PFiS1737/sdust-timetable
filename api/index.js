@@ -6,15 +6,13 @@ export async function GET(request) {
   const url = `${API_URL}?${request.url.split("?")[1]}`
   const token = request.headers.get("token")
 
-  return new Response(
-    JSON.stringify(
-      (
-        await axios.get(url, {
-          headers: {
-            token,
-          },
-        })
-      ).data
-    )
+  return Response.json(
+    (
+      await axios.get(url, {
+        headers: {
+          token,
+        },
+      })
+    ).data
   )
 }
