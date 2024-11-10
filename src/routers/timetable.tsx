@@ -34,7 +34,7 @@ export function Timetable() {
             const classesInfo = await api.getClassesInfoOfWeek(weekInfo)
             setClasses(classesInfo)
 
-            // return
+            return
           }
         }
 
