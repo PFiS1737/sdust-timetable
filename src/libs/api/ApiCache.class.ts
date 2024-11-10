@@ -1,6 +1,6 @@
 import Dexie, { type Table } from "dexie"
 
-import { calculaterSemesterInfo } from "./Api.class"
+import { calculaterSemesterInfo } from "./ApiClient.class"
 import {
   ClassesOfWeek,
   type IClassesOfWeekStorable,

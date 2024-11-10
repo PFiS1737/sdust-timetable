@@ -1,3 +1,3 @@
-import { Api } from "./Api.class"
+import { ApiClient } from "./ApiClient.class"
 
-export const api = new Api()
+export const api = new ApiClient()

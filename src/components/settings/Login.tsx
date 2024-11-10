@@ -15,14 +15,14 @@ import { snackbar } from "mdui/functions/snackbar.js"
 import { api } from "@/libs/api/index"
 import { settings } from "@/libs/settings/index"
 
-export function Login() {
+export function Login({ open = false }: { open?: boolean } = {}) {
   const loggedInUser = useLiveQuery(() => settings.get("username")) as string
 
   const navigate = useNavigate()
 
   const dialog = useRef<Dialog>(null)
 
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(open)
   const [loading, setLoading] = useState(false)
 
   const [username, setUsername] = useState("")

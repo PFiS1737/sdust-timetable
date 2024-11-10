@@ -1,33 +1,66 @@
-import { useLiveQuery } from "dexie-react-hooks"
 import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 import "mdui/components/card"
 
+import { snackbar } from "mdui/functions/snackbar.js"
+
 import type { ClassesOfWeek } from "@/libs/api/ClassesOfWeek.class"
+import type { WeekInfo } from "@/libs/api/WeekInfo.class"
 import { api } from "@/libs/api/index"
 import { CLASS_PERIODS, WEEKDAYS } from "@/libs/config"
 import { settings } from "@/libs/settings/index"
 
 export function Timetable() {
+  const navigate = useNavigate()
+
   const [classes, setClasses] = useState<ClassesOfWeek>()
   const [error, setError] = useState<Error>()
-
-  const { username, password } = useLiveQuery(() => settings.getAll()) ?? {}
+  const [weekNumber, setWeekNimber] = useState<number>()
 
   useEffect(() => {
     ;(async () => {
       try {
-        const info =
-          (api.isLoggedIn ? api : await api.tryLogin(username, password)) &&
-          (await api.getClassesInfoOfWeek())
+        if (await api.hasAnyCachedWeekInfo()) {
+          let weekInfo: WeekInfo
+          if (weekNumber) {
+            weekInfo = (await api.getSemesterInfo()).getWeekByNumber(weekNumber)
+          } else {
+            weekInfo = await api.getCurrentWeekInfo()
+            setWeekNimber(weekInfo.weekNumber)
+          }
 
-        setClasses(info)
+          if (await api.hasCachedClassesInfoOfWeek(weekInfo)) {
+            const classesInfo = await api.getClassesInfoOfWeek(weekInfo)
+            setClasses(classesInfo)
+
+            // return
+          }
+        }
+
+        const { username, password } = (await settings.getAll()) ?? {}
+
+        if (!username || !password) {
+          snackbar({
+            message: "Can't find account or cache, please login first.",
+            placement: "top-end",
+          })
+          navigate("/settings#login")
+          return
+        }
+
+        await api.login(username, password)
+
+        // TODO: add loading component
+        const classesInfo = await api.getClassesInfoOfWeek()
+        setClasses(classesInfo)
+        setWeekNimber(classesInfo.weekInfo.weekNumber)
       } catch (error) {
         setError(error as Error)
         console.error(error)
       }
     })()
-  }, [username, password])
+  }, [weekNumber, navigate])
 
   return (
     <>
@@ -37,7 +70,7 @@ export function Timetable() {
         <div className="space-y-4 bg-gray-800 p-2">
           <div className="grid grid-cols-8 gap-2">
             <mdui-card className="col-span-1 grid py-2 text-center">
-              第 {classes?.weekInfo.weekNumber} 周
+              第 {weekNumber} 周
             </mdui-card>
             {WEEKDAYS.map((day, index) => (
               <mdui-card
