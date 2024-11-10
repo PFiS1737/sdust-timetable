@@ -48,6 +48,7 @@ export function Login() {
           )}
           <mdui-text-field
             name="username"
+            autocomplete="username"
             label="Username"
             className="py-2"
             variant="outlined"
@@ -57,8 +58,9 @@ export function Login() {
           />
           <mdui-text-field
             name="password"
-            label="Password"
             type="password"
+            autocomplete="current-password"
+            label="Password"
             className="py-2"
             variant="outlined"
             toggle-password
