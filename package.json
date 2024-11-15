@@ -3,7 +3,10 @@
   "version": "0.0.0",
   "description": "A powerful timetable for SDUST students.",
   "main": "index.js",
-  "keywords": ["timetable", "SDUST"],
+  "keywords": [
+    "timetable",
+    "SDUST"
+  ],
   "author": "PFiS1737",
   "license": "MIT",
   "type": "module",
@@ -19,7 +22,8 @@
     "mdui": "^2.1.2",
     "react": "19.0.0-rc-3edc000d-20240926",
     "react-dom": "19.0.0-rc-3edc000d-20240926",
-    "react-router-dom": "^6.28.0"
+    "react-router-dom": "^6.28.0",
+    "swiper": "^11.1.14"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.2",

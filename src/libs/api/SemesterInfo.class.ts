@@ -29,7 +29,7 @@ export class SemesterInfo {
     return this.getWeekIncludesDate(new Date())
   }
 
-  getWeekByNumber(weekNumber: number) {
+  getWeekByNumber(weekNumber: number): WeekInfo | undefined {
     return this.weeks[weekNumber - 1]
   }
 }

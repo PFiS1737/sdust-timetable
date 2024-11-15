@@ -100,9 +100,11 @@ export class Api {
       zc: `${weekInfo.weekNumber}`, // 周次
     })) as ClassInfoRaw[]
 
-    const classes = res.map((item) => {
-      if (item) return new ClassInfo(item)
-    })
+    const classes = res
+      .map((item) => {
+        if (item) return new ClassInfo(item)
+      })
+      .filter((e) => e !== undefined)
 
     return new ClassesOfWeek(weekInfo, classes as ClassInfo[])
   }

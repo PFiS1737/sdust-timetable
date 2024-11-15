@@ -1,5 +1,7 @@
 import { addDays, addWeeks, subDays, subWeeks } from "date-fns"
 
+import { settings } from "../settings/index"
+
 import { Api } from "./Api.class"
 import { ApiCache } from "./ApiCache.class"
 import { SemesterInfo } from "./SemesterInfo.class"
@@ -29,6 +31,16 @@ export class ApiClient extends Api {
     this.cache = new ApiCache()
   }
 
+  async tryLogin() {
+    const { username, password } = (await settings.getAll()) ?? {}
+
+    if (!username || !password) {
+      throw new Error("Username or password not found.")
+    }
+
+    return this.login(username, password)
+  }
+
   async getCurrentWeekInfo() {
     if (!this.force) {
       // NOTE: 由于这里 cache.getCurrentWeekInfo() 的实现原理
@@ -47,8 +59,16 @@ export class ApiClient extends Api {
     return info
   }
 
-  async getClassesInfoOfWeek(week?: WeekInfo) {
-    const weekInfo = week ?? (await this.getCurrentWeekInfo())
+  async getWeekInfoOf(weekNumber: number) {
+    return (await this.getSemesterInfo()).getWeekByNumber(weekNumber)
+  }
+
+  async getClassesInfoOfCurrentWeek() {
+    return this.getClassesInfoOfWeek(await this.getCurrentWeekInfo())
+  }
+
+  async getClassesInfoOfWeek(week: WeekInfo) {
+    const weekInfo = week
 
     if (!this.force) {
       const classes = await this.cache.getClassesInfoOfWeek(weekInfo)
@@ -60,6 +80,11 @@ export class ApiClient extends Api {
     await this.cache.setClassesOfWeek(classes)
 
     return classes
+  }
+
+  async getClassesInfoOfWeekNumber(weekNumber: number) {
+    const weekInfo = await this.getWeekInfoOf(weekNumber)
+    if (weekInfo) return this.getClassesInfoOfWeek(weekInfo)
   }
 
   async getSemesterInfo() {
@@ -78,8 +103,19 @@ export class ApiClient extends Api {
     return !!(await this.cache.getCurrentWeekInfo())
   }
 
+  async hasCachedClassesInfoOfCurrentWeek() {
+    return !!(await this.cache.getClassesInfoOfWeek(
+      await this.getCurrentWeekInfo()
+    ))
+  }
+
   async hasCachedClassesInfoOfWeek(week: WeekInfo) {
     return !!(await this.cache.getClassesInfoOfWeek(week))
+  }
+
+  async hasCachedClassesInfoOfWeekNumber(weekNumber: number) {
+    const weekInfo = await this.getWeekInfoOf(weekNumber)
+    if (weekInfo) return this.hasCachedClassesInfoOfWeek(weekInfo)
   }
 }
 

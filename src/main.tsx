@@ -10,7 +10,7 @@ import { App } from "./App"
 import { Edit } from "./routers/edit"
 import { RouteError } from "./routers/error"
 import { Settings } from "./routers/settings"
-import { Timetable } from "./routers/timetable"
+import { Timetables } from "./routers/timetables"
 
 const router = createBrowserRouter([
   {
@@ -20,7 +20,15 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Timetable />,
+        element: <Timetables />,
+      },
+      {
+        path: "week",
+        element: <Timetables />,
+      },
+      {
+        path: "week/:week",
+        element: <Timetables />,
       },
       {
         path: "edit/*",

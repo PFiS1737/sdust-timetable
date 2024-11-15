@@ -8,6 +8,7 @@ const navigationItems = [
     id: "timetable",
     icon: "calendar_month",
     route: "/",
+    pattern: /^\/(week\/\d+)?$/,
   },
   {
     id: "edit",
@@ -28,7 +29,13 @@ export function Navigation() {
   // TODO: 响应式布局, 桌面端使用 NavigationRail
   return (
     <mdui-navigation-bar
-      value={navigationItems.find((e) => e.route === location.pathname)?.id}
+      value={
+        navigationItems.find((e) => {
+          if (e.pattern) return e.pattern.test(location.pathname)
+
+          return e.route === location.pathname
+        })?.id
+      }
     >
       {navigationItems.map((item) => (
         <mdui-navigation-bar-item
